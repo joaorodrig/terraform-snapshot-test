@@ -1,0 +1,207 @@
+{
+  "module_calls": {
+    "stack_test_static_variable": {
+      "expressions": {
+        "aws_default_region": {
+          "constant_value": "eu-west-1"
+        },
+        "backend_config_bucket": {
+          "constant_value": ""
+        },
+        "backend_config_region": {
+          "constant_value": ""
+        },
+        "bucket_name": {
+          "constant_value": "jack_in_the_box"
+        },
+        "deployment_role": {
+          "constant_value": ""
+        },
+        "reference_reader_role_name": {
+          "constant_value": null
+        },
+        "remote_state_keys": {
+          "constant_value": {}
+        },
+        "static_reader_role_arn": {
+          "constant_value": "arn:aws:iam::111111111111:role/lucille"
+        },
+        "tags": {
+          "constant_value": {
+            "cost_center": "1979",
+            "environment": "joe's garage",
+            "owner": "frank zappa"
+          }
+        },
+        "target_account_id": {
+          "constant_value": ""
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "aws_s3_bucket.storage",
+            "expressions": {
+              "bucket": {
+                "references": [
+                  "var.backend_config_bucket"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "storage",
+            "provider_config_key": "module.stack_test_static_variable:aws.target",
+            "schema_version": 0,
+            "type": "aws_s3_bucket"
+          },
+          {
+            "address": "aws_s3_bucket_policy.storage",
+            "expressions": {
+              "bucket": {
+                "references": [
+                  "aws_s3_bucket.storage.id",
+                  "aws_s3_bucket.storage"
+                ]
+              },
+              "policy": {
+                "references": [
+                  "data.aws_iam_policy_document.storage.json",
+                  "data.aws_iam_policy_document.storage"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "storage",
+            "provider_config_key": "module.stack_test_static_variable:aws.target",
+            "schema_version": 0,
+            "type": "aws_s3_bucket_policy"
+          },
+          {
+            "address": "data.aws_caller_identity.deployment_account",
+            "mode": "data",
+            "name": "deployment_account",
+            "provider_config_key": "module.stack_test_static_variable:aws",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.aws_caller_identity.target_account",
+            "mode": "data",
+            "name": "target_account",
+            "provider_config_key": "module.stack_test_static_variable:aws.target",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.aws_iam_policy_document.storage",
+            "expressions": {
+              "statement": [
+                {
+                  "actions": {
+                    "constant_value": [
+                      "s3:GetObject",
+                      "s3:ListBucket"
+                    ]
+                  },
+                  "principals": [
+                    {
+                      "identifiers": {
+                        "references": [
+                          "local.reader_role_arn"
+                        ]
+                      },
+                      "type": {
+                        "constant_value": "AWS"
+                      }
+                    }
+                  ],
+                  "resources": {
+                    "references": [
+                      "aws_s3_bucket.storage.arn",
+                      "aws_s3_bucket.storage",
+                      "aws_s3_bucket.storage.arn",
+                      "aws_s3_bucket.storage"
+                    ]
+                  }
+                }
+              ]
+            },
+            "mode": "data",
+            "name": "storage",
+            "provider_config_key": "module.stack_test_static_variable:aws",
+            "schema_version": 0,
+            "type": "aws_iam_policy_document"
+          },
+          {
+            "address": "data.aws_iam_role.reader",
+            "count_expression": {
+              "references": [
+                "var.reference_reader_role_name"
+              ]
+            },
+            "expressions": {
+              "name": {
+                "references": [
+                  "var.reference_reader_role_name"
+                ]
+              }
+            },
+            "mode": "data",
+            "name": "reader",
+            "provider_config_key": "module.stack_test_static_variable:aws",
+            "schema_version": 0,
+            "type": "aws_iam_role"
+          },
+          {
+            "address": "data.terraform_remote_state.state",
+            "expressions": {
+              "backend": {
+                "constant_value": "s3"
+              },
+              "config": {
+                "references": [
+                  "var.backend_config_bucket",
+                  "var.backend_config_region",
+                  "each.value"
+                ]
+              }
+            },
+            "for_each_expression": {
+              "references": [
+                "var.remote_state_keys"
+              ]
+            },
+            "mode": "data",
+            "name": "state",
+            "provider_config_key": "module.stack_test_static_variable:terraform",
+            "schema_version": 0,
+            "type": "terraform_remote_state"
+          }
+        ],
+        "variables": {
+          "aws_default_region": {},
+          "backend_config_bucket": {
+            "default": ""
+          },
+          "backend_config_region": {
+            "default": ""
+          },
+          "bucket_name": {},
+          "deployment_role": {},
+          "reference_reader_role_name": {
+            "default": null
+          },
+          "remote_state_keys": {
+            "default": {}
+          },
+          "static_reader_role_arn": {
+            "default": null
+          },
+          "tags": {},
+          "target_account_id": {}
+        }
+      },
+      "source": "../"
+    }
+  }
+}

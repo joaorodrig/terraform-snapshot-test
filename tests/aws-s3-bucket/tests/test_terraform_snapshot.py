@@ -1,0 +1,1 @@
+../../../etc/tests-helpers/test_terraform_snapshot.py

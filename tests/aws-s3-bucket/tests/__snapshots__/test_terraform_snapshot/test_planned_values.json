@@ -1,0 +1,119 @@
+{
+  "root_module": {
+    "child_modules": [
+      {
+        "address": "module.stack_test_static_variable",
+        "resources": [
+          {
+            "address": "module.stack_test_static_variable.aws_s3_bucket.storage",
+            "mode": "managed",
+            "name": "storage",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "cors_rule": [],
+              "grant": [],
+              "lifecycle_rule": [],
+              "logging": [],
+              "object_lock_configuration": [],
+              "replication_configuration": [],
+              "server_side_encryption_configuration": [],
+              "tags_all": {},
+              "versioning": [],
+              "website": []
+            },
+            "type": "aws_s3_bucket",
+            "values": {
+              "force_destroy": false,
+              "region": "eu-west-1",
+              "tags": null,
+              "tags_all": {
+                "cost_center": "1979",
+                "environment": "joe's garage",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.stack_test_static_variable.aws_s3_bucket_policy.storage",
+            "mode": "managed",
+            "name": "storage",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {},
+            "type": "aws_s3_bucket_policy",
+            "values": {
+              "region": "eu-west-1"
+            }
+          },
+          {
+            "address": "module.stack_test_static_variable.data.aws_iam_policy_document.storage",
+            "mode": "data",
+            "name": "storage",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "statement": [
+                {
+                  "actions": [
+                    false,
+                    false
+                  ],
+                  "condition": [],
+                  "not_principals": [],
+                  "principals": [
+                    {
+                      "identifiers": [
+                        false
+                      ]
+                    }
+                  ],
+                  "resources": [
+                    false,
+                    false
+                  ]
+                }
+              ]
+            },
+            "type": "aws_iam_policy_document",
+            "values": {
+              "override_json": null,
+              "override_policy_documents": null,
+              "policy_id": null,
+              "source_json": null,
+              "source_policy_documents": null,
+              "statement": [
+                {
+                  "actions": [
+                    "s3:GetObject",
+                    "s3:ListBucket"
+                  ],
+                  "condition": [],
+                  "effect": null,
+                  "not_actions": null,
+                  "not_principals": [],
+                  "not_resources": null,
+                  "principals": [
+                    {
+                      "identifiers": [
+                        "arn:aws:iam::111111111111:role/lucille"
+                      ],
+                      "type": "AWS"
+                    }
+                  ],
+                  "resources": [
+                    null,
+                    null
+                  ],
+                  "sid": null
+                }
+              ],
+              "version": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

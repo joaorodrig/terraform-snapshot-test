@@ -1,0 +1,140 @@
+{
+  "root_module": {
+    "child_modules": [
+      {
+        "address": "module.stack_test_reference_variable",
+        "resources": [
+          {
+            "address": "module.stack_test_reference_variable.gitlab_project.repository",
+            "mode": "managed",
+            "name": "repository",
+            "provider_name": "registry.opentofu.org/gitlabhq/gitlab",
+            "schema_version": 0,
+            "sensitive_values": {
+              "ci_id_token_sub_claim_components": [],
+              "container_expiration_policy": [],
+              "import_url_password": true,
+              "push_rules": [],
+              "runners_token": true,
+              "tags": [],
+              "topics": []
+            },
+            "type": "gitlab_project",
+            "values": {
+              "analytics_access_level": "private",
+              "approvals_before_merge": 2,
+              "archive_on_destroy": false,
+              "archived": null,
+              "avatar": null,
+              "build_coverage_regex": null,
+              "ci_config_path": null,
+              "ci_separated_caches": true,
+              "default_branch": "main",
+              "description": "mock repository for snapshot testing",
+              "external_authorization_classification_label": null,
+              "forked_from_project_id": null,
+              "group_runners_enabled": true,
+              "group_with_project_templates_id": null,
+              "import_url": null,
+              "import_url_password": null,
+              "import_url_username": null,
+              "initialize_with_readme": null,
+              "issues_template": null,
+              "lfs_enabled": true,
+              "merge_commit_template": null,
+              "merge_requests_enabled": true,
+              "merge_requests_template": null,
+              "mirror": null,
+              "mr_default_target_self": null,
+              "name": "test-repository",
+              "namespace_id": 116923234,
+              "only_allow_merge_if_all_discussions_are_resolved": true,
+              "only_allow_merge_if_pipeline_succeeds": true,
+              "packages_enabled": true,
+              "path": null,
+              "permanently_delete_on_destroy": null,
+              "public_jobs": false,
+              "request_access_enabled": false,
+              "resolve_outdated_diff_discussions": null,
+              "skip_wait_for_default_branch_protection": null,
+              "squash_commit_template": null,
+              "suggestion_commit_message": null,
+              "template_name": null,
+              "template_project_id": null,
+              "timeouts": null,
+              "use_custom_template": null,
+              "visibility_level": "private"
+            }
+          }
+        ]
+      },
+      {
+        "address": "module.stack_test_static_variable",
+        "resources": [
+          {
+            "address": "module.stack_test_static_variable.gitlab_project.repository",
+            "mode": "managed",
+            "name": "repository",
+            "provider_name": "registry.opentofu.org/gitlabhq/gitlab",
+            "schema_version": 0,
+            "sensitive_values": {
+              "ci_id_token_sub_claim_components": [],
+              "container_expiration_policy": [],
+              "import_url_password": true,
+              "push_rules": [],
+              "runners_token": true,
+              "tags": [],
+              "topics": []
+            },
+            "type": "gitlab_project",
+            "values": {
+              "analytics_access_level": "private",
+              "approvals_before_merge": 2,
+              "archive_on_destroy": false,
+              "archived": null,
+              "avatar": null,
+              "build_coverage_regex": null,
+              "ci_config_path": null,
+              "ci_separated_caches": true,
+              "default_branch": "main",
+              "description": "mock repository for snapshot testing",
+              "external_authorization_classification_label": null,
+              "forked_from_project_id": null,
+              "group_runners_enabled": true,
+              "group_with_project_templates_id": null,
+              "import_url": null,
+              "import_url_password": null,
+              "import_url_username": null,
+              "initialize_with_readme": null,
+              "issues_template": null,
+              "lfs_enabled": true,
+              "merge_commit_template": null,
+              "merge_requests_enabled": true,
+              "merge_requests_template": null,
+              "mirror": null,
+              "mr_default_target_self": null,
+              "name": "test-repository",
+              "namespace_id": 116923234,
+              "only_allow_merge_if_all_discussions_are_resolved": true,
+              "only_allow_merge_if_pipeline_succeeds": true,
+              "packages_enabled": true,
+              "path": null,
+              "permanently_delete_on_destroy": null,
+              "public_jobs": false,
+              "request_access_enabled": false,
+              "resolve_outdated_diff_discussions": null,
+              "skip_wait_for_default_branch_protection": null,
+              "squash_commit_template": null,
+              "suggestion_commit_message": null,
+              "template_name": null,
+              "template_project_id": null,
+              "timeouts": null,
+              "use_custom_template": null,
+              "visibility_level": "private"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

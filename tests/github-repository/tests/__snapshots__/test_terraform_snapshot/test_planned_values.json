@@ -1,0 +1,57 @@
+{
+  "root_module": {
+    "child_modules": [
+      {
+        "address": "module.stack_test_static_variable",
+        "resources": [
+          {
+            "address": "module.stack_test_static_variable.github_repository.repository",
+            "mode": "managed",
+            "name": "repository",
+            "provider_name": "registry.opentofu.org/integrations/github",
+            "schema_version": 1,
+            "sensitive_values": {
+              "pages": [],
+              "security_and_analysis": [],
+              "template": [],
+              "topics": []
+            },
+            "type": "github_repository",
+            "values": {
+              "allow_auto_merge": false,
+              "allow_merge_commit": true,
+              "allow_rebase_merge": true,
+              "allow_squash_merge": true,
+              "allow_update_branch": null,
+              "archive_on_destroy": null,
+              "archived": false,
+              "auto_init": null,
+              "delete_branch_on_merge": false,
+              "description": "mock repository for snapshot testing",
+              "gitignore_template": null,
+              "has_discussions": null,
+              "has_downloads": null,
+              "has_issues": null,
+              "has_projects": null,
+              "has_wiki": null,
+              "homepage_url": null,
+              "ignore_vulnerability_alerts_during_read": null,
+              "is_template": null,
+              "license_template": null,
+              "merge_commit_message": "PR_TITLE",
+              "merge_commit_title": "MERGE_MESSAGE",
+              "name": "test-repository",
+              "pages": [],
+              "squash_merge_commit_message": "COMMIT_MESSAGES",
+              "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+              "template": [],
+              "visibility": "private",
+              "vulnerability_alerts": null,
+              "web_commit_signoff_required": false
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

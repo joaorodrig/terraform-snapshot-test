@@ -1,0 +1,57 @@
+{
+  "module_calls": {
+    "stack_test_static_variable": {
+      "expressions": {
+        "github_access_token": {
+          "references": [
+            "var.github_access_token"
+          ]
+        },
+        "project_description": {
+          "constant_value": "mock repository for snapshot testing"
+        },
+        "project_name": {
+          "constant_value": "test-repository"
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "github_repository.repository",
+            "expressions": {
+              "description": {
+                "references": [
+                  "var.project_description"
+                ]
+              },
+              "name": {
+                "references": [
+                  "var.project_name"
+                ]
+              },
+              "visibility": {
+                "constant_value": "private"
+              }
+            },
+            "mode": "managed",
+            "name": "repository",
+            "provider_config_key": "module.stack_test_static_variable:github",
+            "schema_version": 1,
+            "type": "github_repository"
+          }
+        ],
+        "variables": {
+          "github_access_token": {
+            "sensitive": true
+          },
+          "project_description": {},
+          "project_name": {}
+        }
+      },
+      "source": "../"
+    }
+  },
+  "variables": {
+    "github_access_token": {}
+  }
+}

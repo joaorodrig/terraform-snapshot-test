@@ -1,0 +1,319 @@
+{
+  "module_calls": {
+    "stack_test_reference_variable": {
+      "expressions": {
+        "gitlab_access_token": {
+          "references": [
+            "var.gitlab_access_token"
+          ]
+        },
+        "gitlab_remote_state_keys": {
+          "constant_value": {}
+        },
+        "project_description": {
+          "constant_value": "mock repository for snapshot testing"
+        },
+        "project_name": {
+          "constant_value": "test-repository"
+        },
+        "reference_group_path": {
+          "constant_value": "terraform-snapshot-testing"
+        },
+        "static_group_id": {
+          "constant_value": null
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "gitlab_project.repository",
+            "expressions": {
+              "analytics_access_level": {
+                "constant_value": "private"
+              },
+              "approvals_before_merge": {
+                "constant_value": 2
+              },
+              "archive_on_destroy": {
+                "constant_value": false
+              },
+              "ci_separated_caches": {
+                "constant_value": true
+              },
+              "default_branch": {
+                "constant_value": "main"
+              },
+              "description": {
+                "references": [
+                  "var.project_description"
+                ]
+              },
+              "group_runners_enabled": {
+                "constant_value": true
+              },
+              "lfs_enabled": {
+                "constant_value": true
+              },
+              "merge_requests_enabled": {
+                "constant_value": true
+              },
+              "name": {
+                "references": [
+                  "var.project_name"
+                ]
+              },
+              "namespace_id": {
+                "references": [
+                  "local.gitlab_group_id"
+                ]
+              },
+              "only_allow_merge_if_all_discussions_are_resolved": {
+                "constant_value": true
+              },
+              "only_allow_merge_if_pipeline_succeeds": {
+                "constant_value": true
+              },
+              "packages_enabled": {
+                "constant_value": true
+              },
+              "public_jobs": {
+                "constant_value": false
+              },
+              "request_access_enabled": {
+                "constant_value": false
+              },
+              "visibility_level": {
+                "constant_value": "private"
+              }
+            },
+            "mode": "managed",
+            "name": "repository",
+            "provider_config_key": "module.stack_test_reference_variable:gitlab",
+            "schema_version": 0,
+            "type": "gitlab_project"
+          },
+          {
+            "address": "data.gitlab_group.group",
+            "count_expression": {
+              "references": [
+                "var.reference_group_path"
+              ]
+            },
+            "expressions": {
+              "full_path": {
+                "references": [
+                  "var.reference_group_path"
+                ]
+              }
+            },
+            "mode": "data",
+            "name": "group",
+            "provider_config_key": "module.stack_test_reference_variable:gitlab",
+            "schema_version": 0,
+            "type": "gitlab_group"
+          },
+          {
+            "address": "data.terraform_remote_state.gitlab_remote_state",
+            "expressions": {
+              "backend": {
+                "constant_value": "local"
+              },
+              "config": {
+                "references": [
+                  "each.value"
+                ]
+              }
+            },
+            "for_each_expression": {
+              "references": [
+                "var.gitlab_remote_state_keys"
+              ]
+            },
+            "mode": "data",
+            "name": "gitlab_remote_state",
+            "provider_config_key": "module.stack_test_reference_variable:terraform",
+            "schema_version": 0,
+            "type": "terraform_remote_state"
+          }
+        ],
+        "variables": {
+          "gitlab_access_token": {
+            "sensitive": true
+          },
+          "gitlab_remote_state_keys": {
+            "default": {}
+          },
+          "project_description": {},
+          "project_name": {},
+          "reference_group_path": {
+            "default": null
+          },
+          "static_group_id": {
+            "default": null
+          }
+        }
+      },
+      "source": "../"
+    },
+    "stack_test_static_variable": {
+      "expressions": {
+        "gitlab_access_token": {
+          "references": [
+            "var.gitlab_access_token"
+          ]
+        },
+        "gitlab_remote_state_keys": {
+          "constant_value": {}
+        },
+        "project_description": {
+          "constant_value": "mock repository for snapshot testing"
+        },
+        "project_name": {
+          "constant_value": "test-repository"
+        },
+        "reference_group_path": {
+          "constant_value": null
+        },
+        "static_group_id": {
+          "constant_value": "116923234"
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "gitlab_project.repository",
+            "expressions": {
+              "analytics_access_level": {
+                "constant_value": "private"
+              },
+              "approvals_before_merge": {
+                "constant_value": 2
+              },
+              "archive_on_destroy": {
+                "constant_value": false
+              },
+              "ci_separated_caches": {
+                "constant_value": true
+              },
+              "default_branch": {
+                "constant_value": "main"
+              },
+              "description": {
+                "references": [
+                  "var.project_description"
+                ]
+              },
+              "group_runners_enabled": {
+                "constant_value": true
+              },
+              "lfs_enabled": {
+                "constant_value": true
+              },
+              "merge_requests_enabled": {
+                "constant_value": true
+              },
+              "name": {
+                "references": [
+                  "var.project_name"
+                ]
+              },
+              "namespace_id": {
+                "references": [
+                  "local.gitlab_group_id"
+                ]
+              },
+              "only_allow_merge_if_all_discussions_are_resolved": {
+                "constant_value": true
+              },
+              "only_allow_merge_if_pipeline_succeeds": {
+                "constant_value": true
+              },
+              "packages_enabled": {
+                "constant_value": true
+              },
+              "public_jobs": {
+                "constant_value": false
+              },
+              "request_access_enabled": {
+                "constant_value": false
+              },
+              "visibility_level": {
+                "constant_value": "private"
+              }
+            },
+            "mode": "managed",
+            "name": "repository",
+            "provider_config_key": "module.stack_test_static_variable:gitlab",
+            "schema_version": 0,
+            "type": "gitlab_project"
+          },
+          {
+            "address": "data.gitlab_group.group",
+            "count_expression": {
+              "references": [
+                "var.reference_group_path"
+              ]
+            },
+            "expressions": {
+              "full_path": {
+                "references": [
+                  "var.reference_group_path"
+                ]
+              }
+            },
+            "mode": "data",
+            "name": "group",
+            "provider_config_key": "module.stack_test_static_variable:gitlab",
+            "schema_version": 0,
+            "type": "gitlab_group"
+          },
+          {
+            "address": "data.terraform_remote_state.gitlab_remote_state",
+            "expressions": {
+              "backend": {
+                "constant_value": "local"
+              },
+              "config": {
+                "references": [
+                  "each.value"
+                ]
+              }
+            },
+            "for_each_expression": {
+              "references": [
+                "var.gitlab_remote_state_keys"
+              ]
+            },
+            "mode": "data",
+            "name": "gitlab_remote_state",
+            "provider_config_key": "module.stack_test_static_variable:terraform",
+            "schema_version": 0,
+            "type": "terraform_remote_state"
+          }
+        ],
+        "variables": {
+          "gitlab_access_token": {
+            "sensitive": true
+          },
+          "gitlab_remote_state_keys": {
+            "default": {}
+          },
+          "project_description": {},
+          "project_name": {},
+          "reference_group_path": {
+            "default": null
+          },
+          "static_group_id": {
+            "default": null
+          }
+        }
+      },
+      "source": "../"
+    }
+  },
+  "variables": {
+    "gitlab_access_token": {
+      "sensitive": true
+    }
+  }
+}
