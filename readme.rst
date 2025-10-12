@@ -6,6 +6,8 @@ Testing Terraform and OpenTofu code is difficult. The typical approach requires 
 
 This library provides snapshot testing for Terraform and OpenTofu modules. It generates and compares JSON snapshots of your planned infrastructure changes without deploying anything. Tests run using read-only credentials against provider APIs, giving you fast feedback on whether your code produces the infrastructure you expect.
 
+`GitHub project home <https://github.com/joaorodrig/terraform-snapshot-test>`_
+
 Table of Contents
 -----------------
 
@@ -60,7 +62,7 @@ This module introduces the concept of Terraform snapshot unit testing. Testing y
 This approach still needs to be discussed as part of the wider team, but here's how it works:
 
 #. You work on the Terraform module as usual. In the ``tests/`` folder within the module, you create one or more test stacks which will produce different desired instantiations of the module. Once you're happy witht the module and test instances, you then generate the snapshot using the ``pytest -m terraform --snapshot-update -s`` command;
-#. This will then intialise the Terraform modules, and use read-only credentials to the software provider (e.g `AWS <./tests/aws-s3-bucket>`_, `GitLab <./tests/gitlab-project>`_, `GitHub <./tests/github-repository>`_) to create a test plan. The synthetesis and planned values of the plan are then persisted as a snapshot of the test, without touching any infrastructure or state;
+#. This will then intialise the Terraform modules, and use read-only credentials to the software provider (e.g `AWS <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket>`_, `GitLab <https://github.com/joaorodrig/terraform-snapshot-test/tests/gitlab-project>`_, `GitHub <https://github.com/joaorodrig/terraform-snapshot-test/tests/github-repository>`_) to create a test plan. The synthetesis and planned values of the plan are then persisted as a snapshot of the test, without touching any infrastructure or state;
 #. You can visually inspect the generated manifests and plans in json, to verify that certain code conditions and resources exist in the way intended by the developer. In future releases, this verification will be done programatically using `Syrupy <https://syrupy-project.github.io/syrupy/>`_ and customisable YAML (e.g. verify that a specific object type with specific settings exists in a specific Terraform address);
 #. This snapshot testing can be executed at every push, to ensure that the intent of the developer is explictly captured in the test;
 
@@ -163,7 +165,7 @@ Future Work
 Usage
 -----
 
-#. In the root folder of the Terraform / OpenTofu module, create a ``pytest.ini`` and customise environment variables based on your use-case and CI job (`AWS example <tests/aws-s3-bucket/pytest.ini>`_ below):
+#. In the root folder of the Terraform / OpenTofu module, create a ``pytest.ini`` and customise environment variables based on your use-case and CI job (`AWS example <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/pytest.ini>`_ below):
 
     ::
 
@@ -178,7 +180,7 @@ Usage
             AWS_DEFAULT_REGION=eu-west-1
             ADDITIONAL_TF_OVERRIDE_LOCATIONS=../
 
-#. Create a ``tests`` folder in the Terraform / OpenTofu module, and copy (or link if in composed repository) the test helpers (`AWS tests example <tests/aws-s3-bucket/tests/>`_ below):
+#. Create a ``tests`` folder in the Terraform / OpenTofu module, and copy (or link if in composed repository) the test helpers (`AWS tests example <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/tests/>`_ below):
 
     ::
 
@@ -186,7 +188,7 @@ Usage
         cd tests/
         ln -s ../../../etc/tests-helpers/* .
 
-#. Overwrite your software providers (`AWS provider example <tests/aws-s3-bucket/tests/provider.tf>`_) to prevent interaction with the state backend, and create the test stack with the instantiations needed (AWS  test stack example);
+#. Overwrite your software providers (`AWS provider example <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/tests/provider.tf>`_) to prevent interaction with the state backend, and create the test stack with the instantiations needed (AWS  test stack example);
 
     ::
 
@@ -376,7 +378,7 @@ Usage
         Deleted unknown snapshot collection (tests/__snapshots__/_1759855219.json)
         =============================================================== 2 passed in 6.19s ================================================================
 
-#. This will generate the snapshots with the module `synthetesis <tests/aws-s3-bucket/tests/__snapshots__/test_synthesizes_properly.json>`_ and `planned values <tests/aws-s3-bucket/tests/__snapshots__/test_planned_values.json>`_ for the different tests, which will be committed to the repository;
+#. This will generate the snapshots with the module `synthetesis <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/tests/__snapshots__/test_synthesizes_properly.json>`_ and `planned values <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/tests/__snapshots__/test_planned_values.json>`_ for the different tests, which will be committed to the repository;
 
 #. To run these unit tests as part of the CI/CD pipeline, you could then run the following command from the Terraform / OpenTofu root, and verify that code being built meets the expected state as defined and verified by the engineer as per the snapshot:
 
@@ -408,6 +410,6 @@ Tests
 
 To run the tests you need to have read-only access to the relevant APIs:
 
-- Simple test of `AWS S3 Bucket <tests/aws-s3-bucket/>`_, with static dependency variables (and commented examples of referended and remote state dependencies);
-- Simple test of `GitLab Project <tests/gitlab-project/>`_, with with static dependency variables (and commented examples of referended and remote state dependencies);
-- Simple test of `GitHub Repository <tests/github-repository/>`_, with static dependency variables;
+- Simple test of `AWS S3 Bucket <https://github.com/joaorodrig/terraform-snapshot-test/tests/aws-s3-bucket/>`_, with static dependency variables (and commented examples of referended and remote state dependencies);
+- Simple test of `GitLab Project <https://github.com/joaorodrig/terraform-snapshot-test/tests/gitlab-project/>`_, with with static dependency variables (and commented examples of referended and remote state dependencies);
+- Simple test of `GitHub Repository <https://github.com/joaorodrig/terraform-snapshot-test/tests/github-repository/>`_, with static dependency variables;

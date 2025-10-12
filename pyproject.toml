@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = [
   { name="Joao Rodrigues", email="jrodrigues@joaorodrigues.co.uk" },
 ]
-description = "A small example package"
+description = "This library provides snapshot testing for Terraform and OpenTofu modules. It generates and compares JSON snapshots of your planned infrastructure changes without deploying anything. Tests run using read-only credentials against provider APIs, giving you fast feedback on whether your code produces the infrastructure you expect."
 readme = "readme.rst"
 requires-python = ">=3.12"
 classifiers = [
