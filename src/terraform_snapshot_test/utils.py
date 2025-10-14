@@ -78,3 +78,27 @@ def get_json_from_file(file_path: str, working_directory: str = ".") -> Any:
     with open(sanitise_file_path(file_path, working_directory)) as f:
         payload = json.load(f)
     return payload
+
+
+# Load the expectations into dictionary
+def load_expectations(folder_path: str) -> Dict[str, Any]:
+    # If folder doesn't exist, return empty dictionary
+    return {}
+
+
+# User method
+def assert_expectations(snapshot_type: str, folder_path: str = "expectations", working_directory: str = ".") -> None:
+
+    # Verify input
+    valid_snapshot_types = ["synthesis", "planned_values"]
+    if snapshot_type not in valid_snapshot_types:
+        raise ValueError(f"Argument 'snapshot_type' must be one of '{json.dumps(valid_snapshot_types)}'")
+
+    # Load expectations
+    expectations = load_expectations(folder_path=f"{working_directory}/{folder_path}")
+    if not expectations:
+        return
+    
+    # Test expectations based on type...
+
+    return

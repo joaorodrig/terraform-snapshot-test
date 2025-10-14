@@ -5,12 +5,12 @@ from typing import Any
 
 import pytest
 
-# To be migrated to a pypi project
-sys.path.append("../../src")
+sys.path.insert(0, "../../src")
 
 from syrupy.filters import props
 
 from terraform_snapshot_test import (
+    assert_expectations,
     get_json_from_file,
     sort_lists_in_dictionary,
     synthetise_terraform_json,
@@ -31,6 +31,9 @@ def test_synthesizes_properly(snapshot_json: Any) -> None:
     # Only focus on generated configuration
     assert tf_manifest["configuration"]["root_module"] == snapshot_json()
 
+    # Assert defined expectations
+    assert_expectations(snapshot_type="synthesis", folder_path="expectations", working_directory=WORKING_DIRECTORY)
+
     return
 
 
@@ -47,5 +50,8 @@ def test_planned_values(snapshot_json: Any) -> None:
     assert tf_manifest["planned_values"] == snapshot_json(
         exclude=props("filename", "content", "timestamp", "enabled_analysis_types", "paths")
     )
+
+    # Assert defined expectations
+    assert_expectations(snapshot_type="planned_values", folder_path="expectations", working_directory=WORKING_DIRECTORY)
 
     return
