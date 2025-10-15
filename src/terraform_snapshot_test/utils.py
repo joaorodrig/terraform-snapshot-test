@@ -128,8 +128,9 @@ def load_expectations(folder_path: str) -> List[Any]:
     return module_expectations
 
 
+# Run the assertions
 def run_assertions(snapshot: Any, expectations: List[Any], snapshot_type: str) -> None:
-    
+
     return
 
 
@@ -145,6 +146,8 @@ def assert_expectations(
 
     # Load expectations
     expectations = load_expectations(folder_path=f"{working_directory}/{folder_path}")
+
+    # If no expectations found, return
     if not expectations:
         return
 
