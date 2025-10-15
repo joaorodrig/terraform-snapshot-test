@@ -4,6 +4,8 @@ import subprocess
 from operator import itemgetter
 from typing import Any, Dict, List
 
+from yaml import safe_load
+
 
 # Takes care of the path
 def sanitise_file_path(file_path: str, working_directory: str = ".") -> str:
@@ -80,14 +82,61 @@ def get_json_from_file(file_path: str, working_directory: str = ".") -> Any:
     return payload
 
 
+# Verify if the expectaiton contains the right format
+def verify_expectation_schema(expectation: Dict[str, Any], file_path: str) -> None:
+
+    # Mandatory fields
+    mandatory_fields = {"description", "module", "synthesis", "planned_values"}
+    if not mandatory_fields.issubset(expectation.keys()):
+        raise ValueError(
+            f"Expectation '{file_path}' is missing one or more of the mandatory attributes {mandatory_fields}"
+        )
+
+    # Check assertions attribute presence
+    for attribute in ["synthesis", "planned_values"]:
+        if not {"assertions"}.issubset(expectation[attribute].keys()):
+            raise ValueError(f"Expectation '{file_path}' '{attribute}' attribute is missing an 'assertions' attribute")
+
+    return
+
+
 # Load the expectations into dictionary
-def load_expectations(folder_path: str) -> Dict[str, Any]:
-    # If folder doesn't exist, return empty dictionary
-    return {}
+def load_expectations(folder_path: str) -> List[Any]:
+    module_expectations: List[Any] = []
+
+    # If folder doesn't exist, return
+    if not os.path.isdir(folder_path):
+        return module_expectations
+
+    # Iterate all files in the folder
+    for root, _, files in os.walk(folder_path):
+        path = root.split(os.sep)
+        for file_name in files:
+            # Only process yaml files
+            if file_name.split(".")[-1] not in ["yml", "yaml"]:
+                continue
+
+            # Safe-load the yaml
+            file_path = "/".join(path + [file_name])
+            with open(file_path, "r", encoding="utf-8") as f:
+                expectations = safe_load(f)
+
+                # Verify if the expecations are correct
+                verify_expectation_schema(expectation=expectations, file_path=file_path)
+                module_expectations.append(expectations)
+
+    return module_expectations
+
+
+def run_assertions(snapshot: Any, expectations: List[Any], snapshot_type: str) -> None:
+    
+    return
 
 
 # User method
-def assert_expectations(snapshot_type: str, folder_path: str = "expectations", working_directory: str = ".") -> None:
+def assert_expectations(
+    snapshot: Any, snapshot_type: str, folder_path: str = "expectations", working_directory: str = "."
+) -> None:
 
     # Verify input
     valid_snapshot_types = ["synthesis", "planned_values"]
@@ -98,7 +147,13 @@ def assert_expectations(snapshot_type: str, folder_path: str = "expectations", w
     expectations = load_expectations(folder_path=f"{working_directory}/{folder_path}")
     if not expectations:
         return
-    
-    # Test expectations based on type...
+
+    # Test expectations
+    run_assertions(snapshot=snapshot, expectations=expectations, snapshot_type=snapshot_type)
 
     return
+
+
+if __name__ == "__main__":
+    expectations = load_expectations(folder_path="../../tests/aws-s3-bucket/tests/expectations/")
+    # print(json.dumps(expectations, indent=2))

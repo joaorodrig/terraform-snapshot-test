@@ -1,5 +1,5 @@
-name: Test stack static variable assertions
-address: module.stack_test_static_variable
+module: module.stack_test_static_variable
+description: Test stack static variable assertions
 
 synthesis:
   assertions:
@@ -24,7 +24,7 @@ planned_values:
         values:
           region: "eu-west-1"
           tags_all:
-            cost_center: !null
+            cost_center:
       - address: aws_s3_bucket_policy.storage
       - address: data.aws_iam_policy_document.storage
         values:
@@ -32,7 +32,7 @@ planned_values:
             - actions:
                 - "s3:GetObject"
                 - "s3:ListBucket"
-              effect: null
+              effect: !!null
               principals:
                 - type: AWS
                   identifiers:
