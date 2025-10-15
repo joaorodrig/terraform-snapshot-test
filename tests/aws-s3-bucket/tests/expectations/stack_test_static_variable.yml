@@ -12,21 +12,21 @@ synthesis:
           expressions:
             bucket:
               references:
-                - aws_s3_bucket.storage
+                - aws_s3_bucket.storage.id
             policy:
               references:
-                - data.aws_iam_policy_document.storage
+                - data.aws_iam_policy_document.storage.json
 
 planned_values:
   assertions:
     resources:
-      - address: aws_s3_bucket.storage
+      - address: $MODULE.aws_s3_bucket.storage
         values:
           region: "eu-west-1"
           tags_all:
-            cost_center:
-      - address: aws_s3_bucket_policy.storage
-      - address: data.aws_iam_policy_document.storage
+            cost_center: $NOTNULL
+      - address: $MODULE.aws_s3_bucket_policy.storage
+      - address: $MODULE.data.aws_iam_policy_document.storage
         values:
           statement:
             - actions:
