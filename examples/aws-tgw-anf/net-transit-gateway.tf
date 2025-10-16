@@ -12,25 +12,18 @@ resource "aws_ec2_transit_gateway_route_table" "inspection" {
   tags               = merge(var.tags, { Name = "${var.network_name}-inspection" })
 }
 
-resource "aws_ec2_transit_gateway_vpc_attachment" "inspection" {
-  provider               = aws.target
-  subnet_ids             = [aws_subnet.uplink1.id, aws_subnet.uplink2.id]
-  transit_gateway_id     = aws_ec2_transit_gateway.core_tgw.id
-  vpc_id                 = aws_vpc.inspection_vpc.id
-  appliance_mode_support = "enable"
-  tags                   = merge(var.tags, { Name = "${var.network_name}-inspection" })
-}
-
 resource "aws_ec2_transit_gateway_route_table_association" "inspection" {
   provider                       = aws.target
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.inspection.id
+  count                          = local.anf_policy_arn == null ? 0 : 1
+  transit_gateway_attachment_id  = aws_networkfirewall_firewall.inspection[0].firewall_status[0].transit_gateway_attachment_sync_states[0].attachment_id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.inspection.id
 }
 
 resource "aws_ec2_transit_gateway_route" "aggregation" {
   provider                       = aws.target
+  count                          = local.anf_policy_arn == null ? 0 : 1
   destination_cidr_block         = "0.0.0.0/0"
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.inspection.id
+  transit_gateway_attachment_id  = aws_networkfirewall_firewall.inspection[0].firewall_status[0].transit_gateway_attachment_sync_states[0].attachment_id
   transit_gateway_route_table_id = aws_ec2_transit_gateway.core_tgw.association_default_route_table_id
 }
 

@@ -1,0 +1,36 @@
+module: module.test_nonprod
+description: Test stack static variable assertions - Non prod
+
+synthesis:
+  assertions:
+    expressions:
+      tags:
+        constant_value:
+          cost_center: $NOTNULL
+          owner: $NOTNULL
+    module:
+      resources:
+        - address: aws_ec2_transit_gateway.core_tgw
+          provider_config_key: $MODULE:aws.target
+        - address: aws_networkfirewall_firewall.inspection
+          provider_config_key: $MODULE:aws.target
+          expressions:
+            firewall_policy_arn:
+              references:
+                - local.anf_policy_arn
+            transit_gateway_id:
+              references:
+                - aws_ec2_transit_gateway.core_tgw.id
+        - address: aws_ec2_transit_gateway_route.aggregation
+          provider_config_key: $MODULE:aws.target
+          expressions:
+            destination_cidr_block:
+              constant_value: 0.0.0.0/0
+            transit_gateway_attachment_id:
+              references:
+                - aws_networkfirewall_firewall.inspection[0].firewall_status[0].transit_gateway_attachment_sync_states[0].attachment_id
+
+planned_values:
+  assertions:
+    resources:
+      - address: $MODULE.aws_ec2_transit_gateway.core_tgw

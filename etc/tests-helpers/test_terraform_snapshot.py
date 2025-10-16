@@ -29,13 +29,12 @@ def test_synthesizes_properly(snapshot_json: Any) -> None:
     tf_manifest = synthetise_terraform_json(file_path=FILE_PATH, working_directory=WORKING_DIRECTORY)
 
     # Only focus on generated configuration
-    relevant_snapshot_json = snapshot_json()
-    assert tf_manifest["configuration"]["root_module"] == relevant_snapshot_json
+    assert tf_manifest["configuration"]["root_module"] == snapshot_json()
 
     # Assert defined expectations
     assert_expectations(
-        snapshot=relevant_snapshot_json,
-        snapshot_type="planned_values",
+        snapshot=tf_manifest["configuration"]["root_module"],
+        snapshot_type="synthesis",
         folder_path="expectations",
         working_directory=WORKING_DIRECTORY,
     )
@@ -51,14 +50,13 @@ def test_planned_values(snapshot_json: Any) -> None:
     tf_manifest["planned_values"] = sort_lists_in_dictionary(dictionary=tf_manifest["planned_values"])
 
     # Only focus on planned values that need to be there
-    relevant_snapshot_json = snapshot_json(
+    assert tf_manifest["planned_values"] == snapshot_json(
         exclude=props("filename", "content", "timestamp", "enabled_analysis_types", "paths")
     )
-    assert tf_manifest["planned_values"] == relevant_snapshot_json
 
     # Assert defined expectations
     assert_expectations(
-        snapshot=relevant_snapshot_json,
+        snapshot=tf_manifest["planned_values"],
         snapshot_type="planned_values",
         folder_path="expectations",
         working_directory=WORKING_DIRECTORY,
