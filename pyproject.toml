@@ -1,6 +1,6 @@
 [project]
 name = "terraform-snapshot-test"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Joao Rodrigues", email="jrodrigues@joaorodrigues.co.uk" },
 ]
