@@ -1,0 +1,756 @@
+{
+  "root_module": {
+    "child_modules": [
+      {
+        "address": "module.test_nonprod",
+        "resources": [
+          {
+            "address": "module.test_nonprod.aws_ec2_transit_gateway.core_tgw",
+            "mode": "managed",
+            "name": "core_tgw",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway",
+            "values": {
+              "amazon_side_asn": 64512,
+              "auto_accept_shared_attachments": "disable",
+              "default_route_table_association": "enable",
+              "default_route_table_propagation": "enable",
+              "description": "core network transit gateway",
+              "dns_support": "enable",
+              "multicast_support": "disable",
+              "region": "eu-west-1",
+              "security_group_referencing_support": "disable",
+              "tags": {
+                "Name": "nonprod",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null,
+              "transit_gateway_cidr_blocks": null,
+              "vpn_ecmp_support": "enable"
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_ec2_transit_gateway_route.aggregation",
+            "mode": "managed",
+            "name": "aggregation",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {},
+            "type": "aws_ec2_transit_gateway_route",
+            "values": {
+              "blackhole": false,
+              "destination_cidr_block": "0.0.0.0/0",
+              "region": "eu-west-1"
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_ec2_transit_gateway_route_table.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway_route_table",
+            "values": {
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              }
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_ec2_transit_gateway_route_table_association.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {},
+            "type": "aws_ec2_transit_gateway_route_table_association",
+            "values": {
+              "region": "eu-west-1",
+              "replace_existing_association": false
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_ec2_transit_gateway_vpc_attachment.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "subnet_ids": [],
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway_vpc_attachment",
+            "values": {
+              "appliance_mode_support": "enable",
+              "dns_support": "enable",
+              "ipv6_support": "disable",
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              }
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_route_table.uplink_default",
+            "mode": "managed",
+            "name": "uplink_default",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "propagating_vgws": [],
+              "route": [
+                {}
+              ],
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_route_table",
+            "values": {
+              "region": "eu-west-1",
+              "route": [
+                {
+                  "carrier_gateway_id": "",
+                  "cidr_block": "0.0.0.0/0",
+                  "core_network_arn": "",
+                  "destination_prefix_list_id": "",
+                  "egress_only_gateway_id": "",
+                  "gateway_id": "",
+                  "ipv6_cidr_block": "",
+                  "local_gateway_id": "",
+                  "nat_gateway_id": "",
+                  "network_interface_id": "",
+                  "vpc_endpoint_id": "",
+                  "vpc_peering_connection_id": ""
+                }
+              ],
+              "tags": {
+                "Name": "nonprod-uplink",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-uplink",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_subnet.firewall1",
+            "mode": "managed",
+            "name": "firewall1",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1a",
+              "cidr_block": "10.255.255.64/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-firewall1",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-firewall1",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_subnet.firewall2",
+            "mode": "managed",
+            "name": "firewall2",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1b",
+              "cidr_block": "10.255.255.192/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-firewall2",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-firewall2",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_subnet.uplink1",
+            "mode": "managed",
+            "name": "uplink1",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1a",
+              "cidr_block": "10.255.255.0/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-uplink1",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-uplink1",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_subnet.uplink2",
+            "mode": "managed",
+            "name": "uplink2",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1b",
+              "cidr_block": "10.255.255.128/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-uplink2",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-uplink2",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_nonprod.aws_vpc.inspection_vpc",
+            "mode": "managed",
+            "name": "inspection_vpc",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_vpc",
+            "values": {
+              "assign_generated_ipv6_cidr_block": null,
+              "cidr_block": "10.255.255.0/24",
+              "enable_dns_support": true,
+              "instance_tenancy": "default",
+              "ipv4_ipam_pool_id": null,
+              "ipv4_netmask_length": null,
+              "ipv6_ipam_pool_id": null,
+              "ipv6_netmask_length": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "nonprod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - nonprod",
+                "owner": "frank zappa"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "address": "module.test_prod",
+        "resources": [
+          {
+            "address": "module.test_prod.aws_ec2_transit_gateway.core_tgw",
+            "mode": "managed",
+            "name": "core_tgw",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway",
+            "values": {
+              "amazon_side_asn": 64512,
+              "auto_accept_shared_attachments": "disable",
+              "default_route_table_association": "enable",
+              "default_route_table_propagation": "enable",
+              "description": "core network transit gateway",
+              "dns_support": "enable",
+              "multicast_support": "disable",
+              "region": "eu-west-1",
+              "security_group_referencing_support": "disable",
+              "tags": {
+                "Name": "prod",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null,
+              "transit_gateway_cidr_blocks": null,
+              "vpn_ecmp_support": "enable"
+            }
+          },
+          {
+            "address": "module.test_prod.aws_ec2_transit_gateway_route.aggregation",
+            "mode": "managed",
+            "name": "aggregation",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {},
+            "type": "aws_ec2_transit_gateway_route",
+            "values": {
+              "blackhole": false,
+              "destination_cidr_block": "0.0.0.0/0",
+              "region": "eu-west-1"
+            }
+          },
+          {
+            "address": "module.test_prod.aws_ec2_transit_gateway_route_table.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway_route_table",
+            "values": {
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              }
+            }
+          },
+          {
+            "address": "module.test_prod.aws_ec2_transit_gateway_route_table_association.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {},
+            "type": "aws_ec2_transit_gateway_route_table_association",
+            "values": {
+              "region": "eu-west-1",
+              "replace_existing_association": false
+            }
+          },
+          {
+            "address": "module.test_prod.aws_ec2_transit_gateway_vpc_attachment.inspection",
+            "mode": "managed",
+            "name": "inspection",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "subnet_ids": [],
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_ec2_transit_gateway_vpc_attachment",
+            "values": {
+              "appliance_mode_support": "enable",
+              "dns_support": "enable",
+              "ipv6_support": "disable",
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              }
+            }
+          },
+          {
+            "address": "module.test_prod.aws_route_table.uplink_default",
+            "mode": "managed",
+            "name": "uplink_default",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 0,
+            "sensitive_values": {
+              "propagating_vgws": [],
+              "route": [
+                {}
+              ],
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_route_table",
+            "values": {
+              "region": "eu-west-1",
+              "route": [
+                {
+                  "carrier_gateway_id": "",
+                  "cidr_block": "0.0.0.0/0",
+                  "core_network_arn": "",
+                  "destination_prefix_list_id": "",
+                  "egress_only_gateway_id": "",
+                  "gateway_id": "",
+                  "ipv6_cidr_block": "",
+                  "local_gateway_id": "",
+                  "nat_gateway_id": "",
+                  "network_interface_id": "",
+                  "vpc_endpoint_id": "",
+                  "vpc_peering_connection_id": ""
+                }
+              ],
+              "tags": {
+                "Name": "prod-uplink",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-uplink",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_prod.aws_subnet.firewall1",
+            "mode": "managed",
+            "name": "firewall1",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1a",
+              "cidr_block": "10.255.255.64/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-firewall1",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-firewall1",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_prod.aws_subnet.firewall2",
+            "mode": "managed",
+            "name": "firewall2",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1b",
+              "cidr_block": "10.255.255.192/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-firewall2",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-firewall2",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_prod.aws_subnet.uplink1",
+            "mode": "managed",
+            "name": "uplink1",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1a",
+              "cidr_block": "10.255.255.0/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-uplink1",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-uplink1",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_prod.aws_subnet.uplink2",
+            "mode": "managed",
+            "name": "uplink2",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_subnet",
+            "values": {
+              "assign_ipv6_address_on_creation": false,
+              "availability_zone": "eu-west-1b",
+              "cidr_block": "10.255.255.128/26",
+              "customer_owned_ipv4_pool": null,
+              "enable_dns64": false,
+              "enable_lni_at_device_index": null,
+              "enable_resource_name_dns_a_record_on_launch": false,
+              "enable_resource_name_dns_aaaa_record_on_launch": false,
+              "ipv6_cidr_block": null,
+              "ipv6_native": false,
+              "map_customer_owned_ip_on_launch": null,
+              "map_public_ip_on_launch": false,
+              "outpost_arn": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-uplink2",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-uplink2",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "timeouts": null
+            }
+          },
+          {
+            "address": "module.test_prod.aws_vpc.inspection_vpc",
+            "mode": "managed",
+            "name": "inspection_vpc",
+            "provider_name": "registry.opentofu.org/hashicorp/aws",
+            "schema_version": 1,
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            },
+            "type": "aws_vpc",
+            "values": {
+              "assign_generated_ipv6_cidr_block": null,
+              "cidr_block": "10.255.255.0/24",
+              "enable_dns_support": true,
+              "instance_tenancy": "default",
+              "ipv4_ipam_pool_id": null,
+              "ipv4_netmask_length": null,
+              "ipv6_ipam_pool_id": null,
+              "ipv6_netmask_length": null,
+              "region": "eu-west-1",
+              "tags": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              },
+              "tags_all": {
+                "Name": "prod-inspection",
+                "cost_center": "1979",
+                "environment": "joe's garage - prod",
+                "owner": "frank zappa"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

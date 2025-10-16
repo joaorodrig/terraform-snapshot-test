@@ -1,0 +1,776 @@
+{
+  "module_calls": {
+    "test_nonprod": {
+      "expressions": {
+        "anf_policy_arn": {
+          "constant_value": null
+        },
+        "aws_default_region": {
+          "constant_value": "eu-west-1"
+        },
+        "backend_config_bucket": {
+          "constant_value": ""
+        },
+        "backend_config_region": {
+          "constant_value": ""
+        },
+        "deployment_role": {
+          "constant_value": ""
+        },
+        "network_name": {
+          "constant_value": "nonprod"
+        },
+        "tags": {
+          "constant_value": {
+            "cost_center": "1979",
+            "environment": "joe's garage - nonprod",
+            "owner": "frank zappa"
+          }
+        },
+        "target_account_id": {
+          "constant_value": ""
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "aws_ec2_transit_gateway.core_tgw",
+            "expressions": {
+              "default_route_table_association": {
+                "constant_value": "enable"
+              },
+              "description": {
+                "constant_value": "core network transit gateway"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "core_tgw",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route.aggregation",
+            "expressions": {
+              "destination_cidr_block": {
+                "constant_value": "0.0.0.0/0"
+              },
+              "transit_gateway_attachment_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "transit_gateway_route_table_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.association_default_route_table_id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "aggregation",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route_table.inspection",
+            "expressions": {
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "transit_gateway_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route_table"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route_table_association.inspection",
+            "expressions": {
+              "transit_gateway_attachment_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "transit_gateway_route_table_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_route_table.inspection.id",
+                  "aws_ec2_transit_gateway_route_table.inspection"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route_table_association"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_vpc_attachment.inspection",
+            "expressions": {
+              "appliance_mode_support": {
+                "constant_value": "enable"
+              },
+              "subnet_ids": {
+                "references": [
+                  "aws_subnet.uplink1.id",
+                  "aws_subnet.uplink1",
+                  "aws_subnet.uplink2.id",
+                  "aws_subnet.uplink2"
+                ]
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "transit_gateway_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_vpc_attachment"
+          },
+          {
+            "address": "aws_route_table.uplink_default",
+            "expressions": {
+              "route": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.transit_gateway_id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink_default",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_route_table"
+          },
+          {
+            "address": "aws_subnet.firewall1",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1a"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.64/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "firewall1",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.firewall2",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1b"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.192/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "firewall2",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.uplink1",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1a"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.0/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink1",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.uplink2",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1b"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.128/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink2",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_vpc.inspection_vpc",
+            "expressions": {
+              "cidr_block": {
+                "constant_value": "10.255.255.0/24"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection_vpc",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 1,
+            "type": "aws_vpc"
+          },
+          {
+            "address": "data.aws_caller_identity.deployment_account",
+            "mode": "data",
+            "name": "deployment_account",
+            "provider_config_key": "module.test_nonprod:aws",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.aws_caller_identity.target_account",
+            "mode": "data",
+            "name": "target_account",
+            "provider_config_key": "module.test_nonprod:aws.target",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.terraform_remote_state.state",
+            "expressions": {
+              "backend": {
+                "constant_value": "s3"
+              },
+              "config": {
+                "references": [
+                  "var.backend_config_bucket",
+                  "var.backend_config_region",
+                  "each.value"
+                ]
+              }
+            },
+            "for_each_expression": {
+              "references": [
+                "var.remote_state_keys"
+              ]
+            },
+            "mode": "data",
+            "name": "state",
+            "provider_config_key": "module.test_nonprod:terraform",
+            "schema_version": 0,
+            "type": "terraform_remote_state"
+          }
+        ],
+        "variables": {
+          "anf_policy_arn": {
+            "default": null
+          },
+          "aws_default_region": {},
+          "backend_config_bucket": {
+            "default": ""
+          },
+          "backend_config_region": {
+            "default": ""
+          },
+          "deployment_role": {},
+          "network_name": {},
+          "remote_state_keys": {
+            "default": {}
+          },
+          "tags": {},
+          "target_account_id": {}
+        }
+      },
+      "source": "../"
+    },
+    "test_prod": {
+      "expressions": {
+        "anf_policy_arn": {
+          "constant_value": "arn:aws:network-firewall:eu-west-1:123456789012:firewall-policy/east-west-prod"
+        },
+        "aws_default_region": {
+          "constant_value": "eu-west-1"
+        },
+        "backend_config_bucket": {
+          "constant_value": ""
+        },
+        "backend_config_region": {
+          "constant_value": ""
+        },
+        "deployment_role": {
+          "constant_value": ""
+        },
+        "network_name": {
+          "constant_value": "prod"
+        },
+        "tags": {
+          "constant_value": {
+            "cost_center": "1979",
+            "environment": "joe's garage - prod",
+            "owner": "frank zappa"
+          }
+        },
+        "target_account_id": {
+          "constant_value": ""
+        }
+      },
+      "module": {
+        "resources": [
+          {
+            "address": "aws_ec2_transit_gateway.core_tgw",
+            "expressions": {
+              "default_route_table_association": {
+                "constant_value": "enable"
+              },
+              "description": {
+                "constant_value": "core network transit gateway"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "core_tgw",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route.aggregation",
+            "expressions": {
+              "destination_cidr_block": {
+                "constant_value": "0.0.0.0/0"
+              },
+              "transit_gateway_attachment_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "transit_gateway_route_table_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.association_default_route_table_id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "aggregation",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route_table.inspection",
+            "expressions": {
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "transit_gateway_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route_table"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_route_table_association.inspection",
+            "expressions": {
+              "transit_gateway_attachment_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "transit_gateway_route_table_id": {
+                "references": [
+                  "aws_ec2_transit_gateway_route_table.inspection.id",
+                  "aws_ec2_transit_gateway_route_table.inspection"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_route_table_association"
+          },
+          {
+            "address": "aws_ec2_transit_gateway_vpc_attachment.inspection",
+            "expressions": {
+              "appliance_mode_support": {
+                "constant_value": "enable"
+              },
+              "subnet_ids": {
+                "references": [
+                  "aws_subnet.uplink1.id",
+                  "aws_subnet.uplink1",
+                  "aws_subnet.uplink2.id",
+                  "aws_subnet.uplink2"
+                ]
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "transit_gateway_id": {
+                "references": [
+                  "aws_ec2_transit_gateway.core_tgw.id",
+                  "aws_ec2_transit_gateway.core_tgw"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_ec2_transit_gateway_vpc_attachment"
+          },
+          {
+            "address": "aws_route_table.uplink_default",
+            "expressions": {
+              "route": {
+                "references": [
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection.transit_gateway_id",
+                  "aws_ec2_transit_gateway_vpc_attachment.inspection"
+                ]
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink_default",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_route_table"
+          },
+          {
+            "address": "aws_subnet.firewall1",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1a"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.64/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "firewall1",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.firewall2",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1b"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.192/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "firewall2",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.uplink1",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1a"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.0/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink1",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_subnet.uplink2",
+            "expressions": {
+              "availability_zone": {
+                "constant_value": "eu-west-1b"
+              },
+              "cidr_block": {
+                "constant_value": "10.255.255.128/26"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              },
+              "vpc_id": {
+                "references": [
+                  "aws_vpc.inspection_vpc.id",
+                  "aws_vpc.inspection_vpc"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "uplink2",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 1,
+            "type": "aws_subnet"
+          },
+          {
+            "address": "aws_vpc.inspection_vpc",
+            "expressions": {
+              "cidr_block": {
+                "constant_value": "10.255.255.0/24"
+              },
+              "tags": {
+                "references": [
+                  "var.tags",
+                  "var.network_name"
+                ]
+              }
+            },
+            "mode": "managed",
+            "name": "inspection_vpc",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 1,
+            "type": "aws_vpc"
+          },
+          {
+            "address": "data.aws_caller_identity.deployment_account",
+            "mode": "data",
+            "name": "deployment_account",
+            "provider_config_key": "module.test_prod:aws",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.aws_caller_identity.target_account",
+            "mode": "data",
+            "name": "target_account",
+            "provider_config_key": "module.test_prod:aws.target",
+            "schema_version": 0,
+            "type": "aws_caller_identity"
+          },
+          {
+            "address": "data.terraform_remote_state.state",
+            "expressions": {
+              "backend": {
+                "constant_value": "s3"
+              },
+              "config": {
+                "references": [
+                  "var.backend_config_bucket",
+                  "var.backend_config_region",
+                  "each.value"
+                ]
+              }
+            },
+            "for_each_expression": {
+              "references": [
+                "var.remote_state_keys"
+              ]
+            },
+            "mode": "data",
+            "name": "state",
+            "provider_config_key": "module.test_prod:terraform",
+            "schema_version": 0,
+            "type": "terraform_remote_state"
+          }
+        ],
+        "variables": {
+          "anf_policy_arn": {
+            "default": null
+          },
+          "aws_default_region": {},
+          "backend_config_bucket": {
+            "default": ""
+          },
+          "backend_config_region": {
+            "default": ""
+          },
+          "deployment_role": {},
+          "network_name": {},
+          "remote_state_keys": {
+            "default": {}
+          },
+          "tags": {},
+          "target_account_id": {}
+        }
+      },
+      "source": "../"
+    }
+  }
+}

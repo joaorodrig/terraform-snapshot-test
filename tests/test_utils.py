@@ -1,8 +1,9 @@
+import pytest
+
 from src.terraform_snapshot_test import (
     assert_expectations,
     get_json_from_file,
 )
-import pytest
 
 
 def test_assertions_synthetis_ok():

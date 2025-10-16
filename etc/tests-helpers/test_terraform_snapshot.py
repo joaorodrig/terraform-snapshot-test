@@ -1,6 +1,4 @@
 import datetime
-import inspect
-import os
 import sys
 import time
 from typing import Any
@@ -31,21 +29,16 @@ def test_synthesizes_properly(snapshot_json: Any) -> None:
     tf_manifest = synthetise_terraform_json(file_path=FILE_PATH, working_directory=WORKING_DIRECTORY)
 
     # Only focus on generated configuration
-    assert tf_manifest["configuration"]["root_module"] == snapshot_json()
+    relevant_snapshot_json = snapshot_json()
+    assert tf_manifest["configuration"]["root_module"] == relevant_snapshot_json
 
     # Assert defined expectations
-    self_function_name = inspect.currentframe().f_code.co_name
-    snapshot_path = (
-        f"{WORKING_DIRECTORY}/__snapshots__/{os.path.basename(__file__).replace(".py", "")}/{self_function_name}.json"
-    )
     assert_expectations(
-        snapshot=get_json_from_file(file_path=snapshot_path),
-        snapshot_type="synthesis",
+        snapshot=relevant_snapshot_json,
+        snapshot_type="planned_values",
         folder_path="expectations",
         working_directory=WORKING_DIRECTORY,
     )
-
-    return
 
 
 @pytest.mark.terraform
@@ -58,20 +51,15 @@ def test_planned_values(snapshot_json: Any) -> None:
     tf_manifest["planned_values"] = sort_lists_in_dictionary(dictionary=tf_manifest["planned_values"])
 
     # Only focus on planned values that need to be there
-    assert tf_manifest["planned_values"] == snapshot_json(
+    relevant_snapshot_json = snapshot_json(
         exclude=props("filename", "content", "timestamp", "enabled_analysis_types", "paths")
     )
+    assert tf_manifest["planned_values"] == relevant_snapshot_json
 
     # Assert defined expectations
-    self_function_name = inspect.currentframe().f_code.co_name
-    snapshot_path = (
-        f"{WORKING_DIRECTORY}/__snapshots__/{os.path.basename(__file__).replace(".py", "")}/{self_function_name}.json"
-    )
     assert_expectations(
-        snapshot=get_json_from_file(snapshot_path),
+        snapshot=relevant_snapshot_json,
         snapshot_type="planned_values",
         folder_path="expectations",
         working_directory=WORKING_DIRECTORY,
     )
-
-    return
