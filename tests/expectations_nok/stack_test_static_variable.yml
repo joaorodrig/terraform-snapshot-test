@@ -6,13 +6,13 @@ synthesis:
     module:
       resources:
         - address: aws_s3_bucket.storage
-          provider_config_key: module.stack_test_static_variable:aws.target
+          provider_config_key: $MODULE:aws.target
         - address: aws_s3_bucket_policy.storage
-          provider_config_key: module.stack_test_static_variable:aws.target
+          provider_config_key: $MODULE:aws.target
           expressions:
             bucket:
               references:
-                - aws_s3_bucket.storage.id
+                - aws_s3_bucket.storage-does-not-exist-in-snapshot.id
             policy:
               references:
                 - data.aws_iam_policy_document.storage.json
@@ -30,6 +30,7 @@ planned_values:
         values:
           statement:
             - actions:
+                - "s3:DoesNotExistInSnaphot"
                 - "s3:GetObject"
                 - "s3:ListBucket"
               effect: !!null

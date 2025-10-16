@@ -1,0 +1,39 @@
+module: module.stack_test_static_variable
+description: Test stack static variable assertions
+
+synthesis:
+  assertions:
+    module:
+      resources:
+        - address: aws_s3_bucket.storage
+          provider_config_key: $MODULE:aws.target
+        - address: aws_s3_bucket_policy.storage
+          provider_config_key: $MODULE:aws.target
+          expressions:
+            bucket:
+              references:
+                - aws_s3_bucket.storage.id
+            policy:
+              references:
+                - data.aws_iam_policy_document.storage.json
+
+planned_values:
+  assertions:
+    resources:
+      - address: $MODULE.aws_s3_bucket.storage
+        values:
+          region: "eu-west-1"
+          tags_all:
+            cost_center: $NOTNULL
+      - address: $MODULE.aws_s3_bucket_policy.storage
+      - address: $MODULE.data.aws_iam_policy_document.storage
+        values:
+          statement:
+            - actions:
+                - "s3:GetObject"
+                - "s3:ListBucket"
+              effect: !!null
+              principals:
+                - type: AWS
+                  identifiers:
+                    - "arn:aws:iam::111111111111:role/lucille"

@@ -1,10 +1,25 @@
 import json
+import logging
 import os
 import subprocess
 from operator import itemgetter
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 from yaml import safe_load
+
+
+# Get a logger
+def _get_logger() -> logging.Logger:
+    logging_level = logging.ERROR
+
+    logger = logging.getLogger()
+    logger.setLevel(logging_level)
+    logging.basicConfig(
+        format="%(levelname)s %(threadName)s [%(filename)s:%(lineno)d] %(message)s",
+        datefmt="%Y-%m-%d:%H:%M:%S",
+        level=logging_level,
+    )
+    return logger
 
 
 # Takes care of the path
@@ -223,16 +238,29 @@ def _get_snapshot_objects(
 def _assert_snapshot_matches_expectation(
     snapshot: Any,
     expectation: Any,
-) -> None:
+    module: str,
+    address_attribute: str,
+    stack_hierarchy: List[str],
+    logger: Union[logging.Logger, None] = None,
+) -> bool:
+    found = False
 
     # List
     if isinstance(expectation, list):
         # Check type symmetry
         assert isinstance(snapshot, list)
         for e in expectation:
-            # TODO: Check the lists...
-            print("\nlist")
-            print(e, "exists?", snapshot)
+            for s in snapshot:
+                found = found or _assert_snapshot_matches_expectation(
+                    snapshot=s,
+                    expectation=e,
+                    module=module,
+                    address_attribute=address_attribute,
+                    stack_hierarchy=stack_hierarchy,
+                    logger=logger,
+                )
+                if not found:
+                    return False
 
     # Dictionary
     elif isinstance(expectation, dict):
@@ -241,24 +269,62 @@ def _assert_snapshot_matches_expectation(
 
         # Check what's inside
         for k in expectation.keys():
-            _assert_snapshot_matches_expectation(
+
+            # Inject recursion metadata to help locate the assertion error
+            stack_sub_hierarchy = list(stack_hierarchy)
+            if "address" in expectation.keys():
+                stack_sub_hierarchy.append(f"resource({expectation["address"]})")
+            stack_sub_hierarchy.append(k)
+
+            # Keep searchig for assertions
+            found = _assert_snapshot_matches_expectation(
                 snapshot=snapshot[k],
                 expectation=expectation[k],
+                module=module,
+                address_attribute=address_attribute,
+                stack_hierarchy=stack_sub_hierarchy,
+                logger=logger,
             )
+            if not found:
+                return False
 
     # Scalar
     else:
-        # Ensure it's not null marker
-        if expectation == "$NOTNULL" and snapshot:
-            assert 1 == 1
-        else:
-            assert expectation == snapshot
+        # Check the types - dict (i.e. wrong types)
+        if isinstance(snapshot, dict):
+            return False
 
-    return
+        # Check the types - list (i.e. scalar in list?)
+        elif isinstance(snapshot, list):
+            return expectation in snapshot
+
+        else:
+            # Both are scalars
+            # Ensure it's not null marker
+            if expectation == "$NOTNULL" and snapshot:
+                found = True
+            else:
+                if expectation:
+                    if expectation.replace("$MODULE", module) == snapshot:
+                        found = True
+                    else:
+                        msg = f"Module: '{module}' expected '{expectation}' but got '{snapshot}' in {".".join(stack_hierarchy)}"
+                        if logger:
+                            logger.error(msg)
+                        return False
+                else:
+                    found = True
+
+    return found
 
 
 # Run the assertions
-def _run_assertions(snapshot: Dict[str, Any], expectations: List[Any], snapshot_type: str) -> None:
+def _run_assertions(
+    snapshot: Dict[str, Any],
+    expectations: List[Any],
+    snapshot_type: str,
+    logger: Union[logging.Logger, None] = None,
+) -> None:
 
     # Verify input
     valid_snapshot_types = ["synthesis", "planned_values"]
@@ -311,9 +377,13 @@ def _run_assertions(snapshot: Dict[str, Any], expectations: List[Any], snapshot_
             assert len(tracked_objects) == 1
 
             # Ensure the found object matches the expectation
-            _assert_snapshot_matches_expectation(
+            assert _assert_snapshot_matches_expectation(
                 snapshot=tracked_objects[0],
                 expectation=assertion_criterion["expectation"],
+                module=module,
+                address_attribute="address",
+                stack_hierarchy=[],
+                logger=logger,
             )
 
     return
@@ -332,23 +402,11 @@ def assert_expectations(
         return
 
     # Test expectations
-    _run_assertions(snapshot=snapshot, expectations=expectations, snapshot_type=snapshot_type)
+    _run_assertions(
+        snapshot=snapshot,
+        expectations=expectations,
+        snapshot_type=snapshot_type,
+        logger=_get_logger(),
+    )
 
     return
-
-
-if __name__ == "__main__":
-    assert_expectations(
-        snapshot=get_json_from_file(
-            "../../tests/aws-s3-bucket/tests/__snapshots__/test_terraform_snapshot/test_synthesizes_properly.json"
-        ),
-        snapshot_type="synthesis",
-        folder_path="../../tests/aws-s3-bucket/tests/expectations/",
-    )
-    assert_expectations(
-        snapshot=get_json_from_file(
-            "../../tests/aws-s3-bucket/tests/__snapshots__/test_terraform_snapshot/test_planned_values.json"
-        ),
-        snapshot_type="planned_values",
-        folder_path="../../tests/aws-s3-bucket/tests/expectations/",
-    )
