@@ -155,12 +155,6 @@ Limitations
 - Automated assertion of specific properties is planned but not yet implemented;
 - Cannot easily test conditional logic or complex module behavior;
 
-Future Work
-===========
-
-- Add the verification of explicit object configuration using YAML manifests for the different test cases (e.g. verify that a specific object type with specific settings exists in a specific Terraform address);
-- Add more examples of different providers;
-- Any other relevant requests by the community;
 
 Usage
 -----
@@ -409,11 +403,37 @@ Simple Example
         =============================================================== 2 passed in 6.11s ================================================================
 
 
-Assertions Example
-==================
+Expectations Example
+====================
+
+If you want to extend the use of expectations, you can create an `assertions <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/aws-s3-bucket/tests/expectations>`_ folder in the `tests <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/aws-s3-bucket/tests>`_ folder of the terraform stack.
+
+In this folder, you can create one YAML file per stack which you want to test. Here's the syntax of the expectations YAML file:
+
+::
+
+    module: module.stack_test_static_variable
+    description: Test stack static variable assertions
+
+    synthesis:
+        assertions: {}
+
+    planned_values:
+        assertions: {}
 
 
+In the expecations section you can write the objects and configuration which you want to ensure will exist in the ``synthesis`` and ``planned_values`` snapshots.
 
+You can also specificy the following macros / key words as part of the assertion criteria:
+
+- ``$MODULE``: Replaced at runtime by the module name (taken from the top of the assertions file);
+- ``$NOTNULL``: When matching a scalar property, ensures the value of the property is non-null;
+
+
+See here two examples of expecations:
+
+- AWS S3 Bucket: `synthesis snapshot <https://github.com/joaorodrig/terraform-snapshot-test/blob/main/examples/aws-s3-bucket/tests/__snapshots__/test_terraform_snapshot/test_synthesizes_properly.json>`_, `planned_values snapshot <https://github.com/joaorodrig/terraform-snapshot-test/blob/main/examples/aws-s3-bucket/tests/__snapshots__/test_terraform_snapshot/test_planned_values.json>`_, `expectations <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/aws-s3-bucket/tests/expectations>`_;
+- AWS Transit Gateway and AWS Network Firewall, ensuring that the firewall exists in the prod test stack (e.g. test conditionals): `synthesis snapshot <https://github.com/joaorodrig/terraform-snapshot-test/blob/main/examples/aws-tgw-anf/tests/__snapshots__/test_terraform_snapshot/test_synthesizes_properly.json>`_, `planned_values snapshot <https://github.com/joaorodrig/terraform-snapshot-test/blob/main/examples/aws-tgw-anf/tests/__snapshots__/test_terraform_snapshot/test_planned_values.json>`_, `expecations <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/aws-tgw-anf/tests/expectations>`_:
 
 
 Running the Examples
@@ -425,3 +445,10 @@ To run the examples you need to have read-only access to the relevant APIs:
 - Simple example of `GitLab Project <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/gitlab-project>`_, with with static dependency variables (and commented examples of referended and remote state dependencies);
 - Simple example of `GitHub Repository <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/github-repository>`_, with static dependency variables;
 - Expectations example of `AWS Transit Gateway and AWS Network Firewall <https://github.com/joaorodrig/terraform-snapshot-test/tree/main/examples/aws-tgw-anf>`_, with static dependency variables and expectations for non-prod (without firewall) and prod (with firewall);
+
+
+Future Work
+===========
+
+- Add more examples of different providers;
+- Any other relevant requests by the community;
