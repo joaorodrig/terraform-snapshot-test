@@ -5,6 +5,8 @@ from typing import Any
 
 import pytest
 
+# For library development only
+# (comment if using in the real world)
 sys.path.insert(0, "../../src")
 
 from syrupy.filters import props
